@@ -10,6 +10,8 @@ jobs:
         name: Code Lints
 #      - run: echo OK
 #        name: Code Build
+      - run: npm install
+        name: Install NodeJs modules
       - run: npm run test:unit
         name: Code Unit Tests
       - run: npm run test:integration
