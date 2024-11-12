@@ -45,5 +45,5 @@ jobs:
           files: ${{ inputs.release_archive_file }}
           dest: artifact.zip
 
-      - run: curl -v --user ${{ steps.vault-secrets.outputs.artifactory_user }}:${{ steps.vault-secrets.outputs.artifactory_password }} --data-binary @artifact.zip -X PUT "http://artifactory-internal.akhilsaidevops.online:8081/artifactory/expense-backend/${GITHUB_REF_NAME}.zip"
+      - run: curl -f -v --user ${{ steps.vault-secrets.outputs.artifactory_user }}:${{ steps.vault-secrets.outputs.artifactory_password }} --data-binary @artifact.zip -X PUT "http://artifactory-internal.akhilsaidevops.online:8081/artifactory/expense-backend/${GITHUB_REF_NAME}.zip"
         name: Upload Artifact
