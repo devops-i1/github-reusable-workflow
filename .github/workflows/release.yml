@@ -5,6 +5,9 @@ on:
       project_name:
         required: true
         type: string
+      release_archive_file:
+        required: true
+        type: string
       npm_install:
         required: true
         type: boolean
@@ -33,7 +36,10 @@ jobs:
             common/data/common artifactory_user | artifactory_user;
             common/data/common artifactory_password | artifactory_password ;
 
-      - run: ls -l
-      - run: env
+      - run: echo ${GITHUB_REF_NAME} >VERSION
+        name: Create Version File
+      - run: zip -r ${GITHUB_REF_NAME}.zip ${{ inputs.release_archive_file }}
+        name: Prepare Artifact
+      - run: ls -lh
 #      - run: curl -v --user ${{ steps.vault-secrets.outputs.artifactory_user }}:${{ steps.vault-secrets.outputs.artifactory_password }} --data-binary @${GITHUB_REF_NAME}.zip -X PUT "http://artifactory-internal.akhilsaidevops.online:8081/artifactory/expense-backend/${GITHUB_REF_NAME}.zip"
-        name: Release Software
+        name: Upload Artifact
