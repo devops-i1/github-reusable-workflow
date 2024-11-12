@@ -22,6 +22,18 @@ jobs:
         name: Install NodeJs modules
         if: ${{ inputs.npm_install }}
 
-      - run: echo OK
+      - name: Import Vault Secrets
+        id: vault-secrets
+        uses: hashicorp/vault-action@v2
+        with:
+          url: https://vault.akhilsaidevops.online:8200/
+          token: ${{ secrets.vault_token }}
+          tlsSkipVerify: true
+          secrets: |
+            common/data/common artifactory_user | artifactory_user;
+            common/data/common artifactory_password | artifactory_password ;
+
+      - run: ls -l
+      - run: env
+#      - run: curl -v --user ${{ steps.vault-secrets.outputs.artifactory_user }}:${{ steps.vault-secrets.outputs.artifactory_password }} --data-binary @${GITHUB_REF_NAME}.zip -X PUT "http://artifactory-internal.akhilsaidevops.online:8081/artifactory/expense-backend/${GITHUB_REF_NAME}.zip"
         name: Release Software
-#        if: ${{ startsWith(github.ref, 'refs/tags/') }}
