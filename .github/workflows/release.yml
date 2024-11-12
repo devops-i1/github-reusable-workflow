@@ -38,8 +38,15 @@ jobs:
 
       - run: echo ${GITHUB_REF_NAME} >VERSION
         name: Create Version File
-      - run: zip -r ${GITHUB_REF_NAME}.zip ${{ inputs.release_archive_file }}
-        name: Prepare Artifact
+        
+      - name: Prepare Artifact
+        uses: vimtor/action-zip@v1.2
+        with:
+          files: ${{ inputs.release_archive_file }}
+          dest: ${GITHUB_REF_NAME}.zip
+
+#      - run: zip -r ${GITHUB_REF_NAME}.zip ${{ inputs.release_archive_file }}
+#        name: Prepare Artifact
       - run: ls -lh
 #      - run: curl -v --user ${{ steps.vault-secrets.outputs.artifactory_user }}:${{ steps.vault-secrets.outputs.artifactory_password }} --data-binary @${GITHUB_REF_NAME}.zip -X PUT "http://artifactory-internal.akhilsaidevops.online:8081/artifactory/expense-backend/${GITHUB_REF_NAME}.zip"
         name: Upload Artifact
