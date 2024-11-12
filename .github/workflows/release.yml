@@ -38,12 +38,12 @@ jobs:
 
       - run: echo ${GITHUB_REF_NAME} >VERSION
         name: Create Version File
-        
+
       - name: Prepare Artifact
         uses: vimtor/action-zip@v1.2
         with:
           files: ${{ inputs.release_archive_file }}
-          dest: ${GITHUB_REF_NAME}.zip
+          dest: ${{ github.ref.name }}.zip
 
 #      - run: zip -r ${GITHUB_REF_NAME}.zip ${{ inputs.release_archive_file }}
 #        name: Prepare Artifact
