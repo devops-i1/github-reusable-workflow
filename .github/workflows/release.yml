@@ -21,7 +21,7 @@ jobs:
       - name: Code Checkout
         uses: actions/checkout@v4
 
-      - run: npm install
+      - run: npm installl
         name: Install NodeJs modules
         if: ${{ inputs.npm_install }}
 
