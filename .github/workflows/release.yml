@@ -44,3 +44,6 @@ jobs:
 
       - run: curl -f -v --user ${{ steps.vault-secrets.outputs.artifactory_user }}:${{ steps.vault-secrets.outputs.artifactory_password }} --data-binary @artifact.zip -X PUT "http://artifactory-internal.akhilsaidevops.online:8081/artifactory/${{ inputs.project_name }}/${GITHUB_REF_NAME}.zip"
         name: Upload Artifact
+
+      - run: |
+          curl -s -k --header "X-Vault-Token: ${{ secrets.vault_token }}" https://vault.akhilsaidevops.online:8200/v1/expense-dev/data/frontend | jq .data.data | sed -e "/APP_VERSION/ c \"APP_VERSION\": \"1.0.1\"," | jq
